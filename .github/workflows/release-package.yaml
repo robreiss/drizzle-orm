@@ -17,8 +17,8 @@ jobs:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
       - run: npm install -g pnpm
-      - run: pnpm install
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
         working-directory: drizzle-orm
       - run: pnpm run build
         working-directory: drizzle-orm
