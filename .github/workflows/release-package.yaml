@@ -10,9 +10,6 @@ jobs:
     permissions:
       packages: write
       contents: read
-    defaults:
-      run:
-        working-directory: drizzle-orm
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -21,9 +18,15 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - run: npm install -g pnpm
       - run: pnpm install
+      - run: pnpm install
+        working-directory: drizzle-orm
       - run: pnpm run build
+        working-directory: drizzle-orm
       - run: pnpm run test
+        working-directory: drizzle-orm
       - run: pnpm run pack
+        working-directory: drizzle-orm
       - run: pnpm run publish
+        working-directory: drizzle-orm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
