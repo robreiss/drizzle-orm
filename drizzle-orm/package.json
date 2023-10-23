@@ -1,6 +1,6 @@
 {
   "name": "@robreiss/drizzle-orm",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Drizzle ORM package for SQL databases",
   "type": "module",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/drizzle-team/drizzle-orm.git"
+    "url": "git+https://github.com/robreiss/drizzle-orm.git"
   },
   "keywords": [
     "drizzle",
