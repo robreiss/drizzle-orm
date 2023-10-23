@@ -89,13 +89,21 @@ export class MySqlDialect {
 	}
 
 	buildDeleteQuery({ table, where, returning }: MySqlDeleteConfig): SQL {
+		const tableSql = (() => {
+			if (is(table, Table) && table[Table.Symbol.OriginalName] !== table[Table.Symbol.Name]) {
+				return sql`${sql.identifier(table[Table.Symbol.OriginalName])} ${sql.identifier(table[Table.Symbol.Name])}`;
+			}
+
+			return table;
+		})();
+
 		const returningSql = returning
 			? sql` returning ${this.buildSelection(returning, { isSingleTable: true })}`
 			: undefined;
 
 		const whereSql = where ? sql` where ${where}` : undefined;
 
-		return sql`delete from ${table}${whereSql}${returningSql}`;
+		return sql`delete from ${tableSql}${whereSql}${returningSql}`;
 	}
 
 	buildUpdateSet(table: MySqlTable, set: UpdateSet): SQL {
@@ -116,6 +124,14 @@ export class MySqlDialect {
 	}
 
 	buildUpdateQuery({ table, set, where, returning }: MySqlUpdateConfig): SQL {
+		const tableSql = (() => {
+			if (is(table, Table) && table[Table.Symbol.OriginalName] !== table[Table.Symbol.Name]) {
+				return sql`${sql.identifier(table[Table.Symbol.OriginalName])} ${sql.identifier(table[Table.Symbol.Name])}`;
+			}
+
+			return table;
+		})();
+
 		const setSql = this.buildUpdateSet(table, set);
 
 		const returningSql = returning
@@ -124,7 +140,7 @@ export class MySqlDialect {
 
 		const whereSql = where ? sql` where ${where}` : undefined;
 
-		return sql`update ${table} set ${setSql}${whereSql}${returningSql}`;
+		return sql`update ${tableSql} set ${setSql}${whereSql}${returningSql}`;
 	}
 
 	/**
@@ -335,6 +351,14 @@ export class MySqlDialect {
 	}
 
 	buildInsertQuery({ table, values, ignore, onConflict }: MySqlInsertConfig): SQL {
+		const tableSql = (() => {
+			if (is(table, Table) && table[Table.Symbol.OriginalName] !== table[Table.Symbol.Name]) {
+				return sql`${sql.identifier(table[Table.Symbol.OriginalName])} ${sql.identifier(table[Table.Symbol.Name])}`;
+			}
+
+			return table;
+		})();
+
 		// const isSingleValue = values.length === 1;
 		const valuesSqlList: ((SQLChunk | SQL)[] | SQL)[] = [];
 		const columns: Record<string, MySqlColumn> = table[Table.Symbol.Columns];
@@ -371,7 +395,7 @@ export class MySqlDialect {
 
 		const onConflictSql = onConflict ? sql` on duplicate key ${onConflict}` : undefined;
 
-		return sql`insert${ignoreSql} into ${table} ${insertOrder} values ${valuesSql}${onConflictSql}`;
+		return sql`insert${ignoreSql} into ${tableSql} ${insertOrder} values ${valuesSql}${onConflictSql}`;
 	}
 
 	sqlToQuery(sql: SQL): QueryWithTypings {
