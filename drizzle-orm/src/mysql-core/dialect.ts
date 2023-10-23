@@ -353,7 +353,7 @@ export class MySqlDialect {
 	buildInsertQuery({ table, values, ignore, onConflict }: MySqlInsertConfig): SQL {
 		const tableSql = (() => {
 			if (is(table, Table) && table[Table.Symbol.OriginalName] !== table[Table.Symbol.Name]) {
-				return sql`${sql.identifier(table[Table.Symbol.OriginalName])} ${sql.identifier(table[Table.Symbol.Name])}`;
+				return sql`${sql.identifier(table[Table.Symbol.OriginalName])}`;
 			}
 
 			return table;
