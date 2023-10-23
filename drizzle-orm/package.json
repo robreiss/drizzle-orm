@@ -1,6 +1,6 @@
 {
   "name": "@robreiss/drizzle-orm",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Drizzle ORM package for SQL databases",
   "type": "module",
   "scripts": {
@@ -16,7 +16,7 @@
   "types": "./index.d.ts",
   "sideEffects": false,
   "publishConfig": {
-    "provenance": true
+    "provenance": false
   },
   "repository": {
     "type": "git",
